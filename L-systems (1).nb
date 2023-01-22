@@ -1,0 +1,1083 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     46794,       1073]
+NotebookOptionsPosition[     46278,       1055]
+NotebookOutlinePosition[     46706,       1072]
+CellTagsIndexPosition[     46663,       1069]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"imageSize", "=", 
+   RowBox[{"{", 
+    RowBox[{"400", ",", "400"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"thumbSize", "=", 
+   RowBox[{"{", 
+    RowBox[{"26", ",", "26"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"thumbPadding", "=", "2"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"nextStyle", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"RGBColor", "[", 
+      RowBox[{"1", ",", ".6", ",", ".6"}], "]"}], ",", 
+     RowBox[{"Dashing", "[", 
+      RowBox[{"1", "/", 
+       RowBox[{"(", 
+        RowBox[{"40", "+", 
+         RowBox[{"3", "^", 
+          RowBox[{"(", 
+           RowBox[{"i", "+", "1"}], ")"}]}]}], ")"}]}], "]"}]}], "}"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"maxIterations", "=", "5"}], ";"}], " "}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Off", "[", 
+   RowBox[{"Part", "::", "partw"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Off", "[", 
+   RowBox[{"Rule", "::", "rhs"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Off", "[", 
+    RowBox[{"Join", "::", "heads"}], "]"}], ";"}], "\[IndentingNewLine]", 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"adjustment", "=", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Rule", "[", 
+           RowBox[{"a_", ",", "b_"}], "]"}], ":>", 
+          RowBox[{"Rule", "[", 
+           RowBox[{"a", ",", 
+            RowBox[{"Sequence", "@@", "b"}]}], "]"}]}], ",", 
+         RowBox[{
+          RowBox[{"RuleDelayed", "[", 
+           RowBox[{"a_", ",", "b_"}], "]"}], ":>", 
+          RowBox[{"RuleDelayed", "[", 
+           RowBox[{"a", ",", 
+            RowBox[{"Sequence", "@@", "b"}]}], "]"}]}]}], "}"}]}], "}"}], ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"LSystem", "[", 
+        RowBox[{"0", ",", "axiom_", ",", "_"}], "]"}], ":=", "axiom"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"LSystem", "[", 
+        RowBox[{"iterations_", ",", "axiom_", ",", "rule_"}], "]"}], ":=", 
+       RowBox[{
+        RowBox[{"LSystem", "[", 
+         RowBox[{
+          RowBox[{"iterations", "-", "1"}], ",", "axiom", ",", "rule"}], 
+         "]"}], "/.", " ", 
+        RowBox[{"(", 
+         RowBox[{"rule", "/.", " ", "adjustment"}], ")"}]}]}], ";"}]}], "]"}],
+    ";"}], "\n", "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"LOGO", "[", 
+     RowBox[{"commands_", ",", 
+      RowBox[{"{", 
+       RowBox[{"startx_", ",", "starty_", ",", "starta_"}], "}"}]}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"forward", "=", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"x_Real", ",", "y_Real", ",", "a_Real"}], "}"}], "->", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"x", "+", 
+              RowBox[{"#", " ", 
+               RowBox[{"Cos", "[", "a", "]"}]}]}], ",", 
+             RowBox[{"y", "+", 
+              RowBox[{"#", " ", 
+               RowBox[{"Sin", "[", "a", "]"}]}]}], ",", "a"}], "}"}]}], 
+          "&"}]}], ",", 
+        RowBox[{"left", "=", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"x_Real", ",", "y_Real", ",", "a_Real"}], "}"}], "->", 
+           RowBox[{"{", 
+            RowBox[{"x", ",", "y", ",", 
+             RowBox[{"a", "+", 
+              RowBox[{"#", " ", "Degree"}]}]}], "}"}]}], "&"}]}], ",", 
+        RowBox[{"backward", "=", 
+         RowBox[{
+          RowBox[{"forward", "[", 
+           RowBox[{"-", "#"}], "]"}], "&"}]}], ",", 
+        RowBox[{"right", "=", 
+         RowBox[{
+          RowBox[{"left", "[", 
+           RowBox[{"-", "#"}], "]"}], "&"}]}], ",", "push", ",", "pop"}], 
+       "}"}], ",", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"push", ",", "pop"}], "}"}], "=", 
+        RowBox[{"Module", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"list", "=", 
+            RowBox[{"{", "}"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"triple_", ":>", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"AppendTo", "[", 
+                RowBox[{"list", ",", "triple"}], "]"}], ";", "triple"}], 
+              ")"}]}], ",", 
+            RowBox[{"_", ":>", 
+             RowBox[{"Module", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"val", "=", 
+                 RowBox[{"list", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"-", "1"}], "]"}], "]"}]}], "}"}], ",", 
+               RowBox[{
+                RowBox[{"list", "=", 
+                 RowBox[{"Delete", "[", 
+                  RowBox[{"list", ",", 
+                   RowBox[{"-", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+                "val"}]}], "]"}]}]}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Block", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"(*", 
+           RowBox[{
+            RowBox[{"remove", " ", "non"}], "-", "commands"}], "*)"}], 
+          RowBox[{
+           RowBox[{"filteredCommands", ":=", 
+            RowBox[{"filteredCommands", "=", 
+             RowBox[{"Cases", "[", 
+              RowBox[{"commands", ",", 
+               RowBox[{"_Rule", "|", "_RuleDelayed"}]}], "]"}]}]}], ",", 
+           RowBox[{"spans", ":=", 
+            RowBox[{"spans", "=", 
+             RowBox[{"Join", "[", 
+              RowBox[{
+               RowBox[{"{", "0", "}"}], ",", 
+               RowBox[{
+                RowBox[{"Position", "[", 
+                 RowBox[{"filteredCommands", ",", "pop"}], "]"}], "//", 
+                "Flatten"}], ",", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"filteredCommands", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"-", "1"}], "]"}], "]"}], "=!=", "pop"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"Length", "[", "filteredCommands", "]"}], "+", 
+                   "1"}], "}"}], ",", 
+                 RowBox[{"{", "}"}]}], "]"}]}], "]"}]}]}], ",", 
+           RowBox[{"removeAngles", "=", 
+            RowBox[{
+             RowBox[{"ArrayPad", "[", 
+              RowBox[{"#", ",", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"0", ",", "0"}], "}"}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"0", ",", 
+                   RowBox[{"-", "1"}]}], "}"}]}], "}"}]}], "]"}], "&"}]}], 
+           ",", 
+           RowBox[{"splitLines", "=", 
+            RowBox[{"Function", "[", 
+             RowBox[{"lines", ",", 
+              RowBox[{"Cases", "[", 
+               RowBox[{
+                RowBox[{"Partition", "[", 
+                 RowBox[{"spans", ",", "2", ",", "1"}], "]"}], ",", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"start_", ",", "end_"}], "}"}], ":>", 
+                 RowBox[{"lines", "[", 
+                  RowBox[{"[", 
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"start", "+", "1"}], ")"}], ";;", "end"}], "]"}], 
+                  "]"}]}]}], "]"}]}], "]"}]}]}], "}"}], ",", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"FoldList", "[", 
+            RowBox[{"Replace", ",", 
+             RowBox[{"{", 
+              RowBox[{"startx", ",", "starty", ",", 
+               RowBox[{"starta", " ", "Degree"}]}], "}"}], ",", 
+             "filteredCommands"}], "]"}], "//", "removeAngles"}], "//", 
+          "splitLines"}]}], "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"geometry", "[", 
+     RowBox[{"system_", ",", "iterations_"}], "]"}], ":=", 
+    RowBox[{"Block", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"i", "=", "iterations"}], ",", 
+        RowBox[{"offset", "=", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"offset", "/.", " ", "system"}], ")"}], "/.", " ", 
+          RowBox[{"(", 
+           RowBox[{"offset", "->", 
+            RowBox[{"{", 
+             RowBox[{"0.", ",", "0."}], "}"}]}], ")"}]}]}]}], "}"}], ",", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Hold", "[", 
+         RowBox[{"LOGO", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"LSystem", "[", 
+             RowBox[{"i", ",", "axiom", ",", "rules"}], "]"}], "/.", " ", 
+            "conversions"}], ",", 
+           RowBox[{"Append", "[", 
+            RowBox[{"offset", ",", "orientation"}], "]"}]}], "]"}], "]"}], "/.",
+         " ", "system"}], "//", "ReleaseHold"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"thumbnail", "[", "system_", "]"}], ":=", 
+    RowBox[{"Tooltip", "[", 
+     RowBox[{
+      RowBox[{"Graphics", "[", 
+       RowBox[{
+        RowBox[{"Line", "/@", 
+         RowBox[{"geometry", "[", 
+          RowBox[{"system", ",", 
+           RowBox[{"(", 
+            RowBox[{"thumbIterations", "/.", " ", "system"}], ")"}]}], 
+          "]"}]}], ",", 
+        RowBox[{"ImagePadding", "->", "thumbPadding"}], ",", 
+        RowBox[{"ImageSize", "->", "thumbSize"}]}], "]"}], ",", 
+      RowBox[{"(", 
+       RowBox[{"name", "/.", " ", "system"}], ")"}], ",", 
+      RowBox[{"TooltipDelay", "->", ".3"}]}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"curves", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"name", "->", "\"\<Levyy C Curve\>\""}], ",", 
+        RowBox[{"orientation", "->", "0."}], ",", 
+        RowBox[{"axiom", "->", 
+         RowBox[{"{", 
+          RowBox[{"forward", "[", "1", "]"}], "}"}]}], ",", 
+        RowBox[{"rules", "->", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"forward", "[", "x_", "]"}], "->", 
+           RowBox[{"{", 
+            RowBox[{"R", ",", 
+             RowBox[{"forward", "[", 
+              RowBox[{
+               RowBox[{"Cos", "[", 
+                RowBox[{"45.", " ", "Degree"}], "]"}], " ", "x"}], "]"}], ",",
+              "L", ",", "L", ",", 
+             RowBox[{"forward", "[", 
+              RowBox[{
+               RowBox[{"Cos", "[", 
+                RowBox[{"45.", " ", "Degree"}], "]"}], " ", "x"}], "]"}], ",",
+              "R"}], "}"}]}], "}"}]}], ",", 
+        RowBox[{"conversions", "->", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"L", "->", 
+            RowBox[{"left", "[", "45", "]"}]}], ",", 
+           RowBox[{"R", "->", 
+            RowBox[{"right", "[", "45", "]"}]}]}], "}"}]}], ",", 
+        RowBox[{"plotRange", "->", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", ".5"}], ",", "1.5"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "1"}], ",", ".25"}], "}"}]}], "}"}]}], ",", 
+        RowBox[{"thumbIterations", "->", "5"}], ",", 
+        RowBox[{"maxIters", "->", "13"}], ",", 
+        RowBox[{"maxShowNext", "->", "8"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"name", "->", "\"\<Tree\>\""}], ",", 
+        RowBox[{"orientation", "->", "90."}], ",", 
+        RowBox[{"axiom", "->", 
+         RowBox[{"{", "F", "}"}]}], ",", 
+        RowBox[{"rules", "->", 
+         RowBox[{"{", 
+          RowBox[{"F", "->", 
+           RowBox[{"{", 
+            RowBox[{
+            "F", ",", "push", ",", "L", ",", "F", ",", "F", ",", "pop", ",", 
+             "F", ",", "push", ",", "R", ",", "F", ",", "F", ",", "pop", ",", 
+             "F"}], "}"}]}], "}"}]}], ",", 
+        RowBox[{"conversions", "->", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"F", "->", 
+            RowBox[{"forward", "[", 
+             RowBox[{"3.", "^", 
+              RowBox[{"(", 
+               RowBox[{"-", "i"}], ")"}]}], "]"}]}], ",", 
+           RowBox[{"L", "->", 
+            RowBox[{"left", "[", "25", "]"}]}], ",", 
+           RowBox[{"R", "->", 
+            RowBox[{"right", "[", "25", "]"}]}]}], "}"}]}], ",", 
+        RowBox[{"plotRange", "->", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", ".4"}], ",", ".48"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", ".01"}], ",", "1.36"}], "}"}]}], "}"}]}], ",", 
+        RowBox[{"thumbIterations", "->", "2"}], ",", 
+        RowBox[{"maxIters", "->", "4"}], ",", 
+        RowBox[{"maxShowNext", "->", "3"}]}], "}"}]}], "}"}]}], ";"}], "\n", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"choices", "=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"#", "->", 
+        RowBox[{"thumbnail", "[", "#", "]"}]}], ")"}], "&"}], "/@", 
+     "curves"}]}], ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"maxIterations", "=", 
+     RowBox[{"(", 
+      RowBox[{"maxIters", "/.", " ", "system"}], ")"}]}], ";", 
+    RowBox[{"iterations", "=", 
+     RowBox[{"Min", "[", 
+      RowBox[{"iterations", ",", 
+       RowBox[{"(", 
+        RowBox[{"maxIters", "/.", " ", "system"}], ")"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Tooltip", "[", 
+     RowBox[{
+      RowBox[{"Show", "[", 
+       RowBox[{"(*", 
+        RowBox[{"next", " ", "iteration"}], "*)"}], 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"showNext", "&&", 
+           RowBox[{"(", 
+            RowBox[{"iterations", "<=", 
+             RowBox[{"(", 
+              RowBox[{"maxShowNext", "/.", " ", "system"}], ")"}]}], ")"}]}], 
+          ",", 
+          RowBox[{"Graphics", "[", 
+           RowBox[{"Join", "[", 
+            RowBox[{
+             RowBox[{"Block", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"i", "=", 
+                 RowBox[{"iterations", "+", "1"}]}], "}"}], ",", 
+               "nextStyle"}], "]"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"Thickness", "[", 
+               RowBox[{"lineThickness", "/", "2"}], "]"}], "}"}], ",", 
+             RowBox[{"Line", "/@", 
+              RowBox[{"geometry", "[", 
+               RowBox[{"system", ",", 
+                RowBox[{"iterations", "+", "1"}]}], "]"}]}]}], "]"}], "]"}], 
+          ",", 
+          RowBox[{"{", "}"}]}], "]"}], ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"color", ",", 
+             RowBox[{"Thickness", "[", "lineThickness", "]"}]}], "}"}], ",", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"customStyle", "/.", " ", "system"}], ")"}], "/.", " ", 
+            RowBox[{"(", 
+             RowBox[{"customStyle", "->", 
+              RowBox[{"{", "}"}]}], ")"}]}], ",", 
+           RowBox[{"Line", "/@", 
+            RowBox[{"geometry", "[", 
+             RowBox[{"system", ",", "iterations"}], "]"}]}]}], "]"}], "]"}], 
+        ",", 
+        RowBox[{"PlotRange", "->", 
+         RowBox[{"(", 
+          RowBox[{"plotRange", "/.", " ", "system"}], ")"}]}], ",", 
+        RowBox[{"ImageSize", "->", "imageSize"}]}], "]"}], ",", 
+      RowBox[{"Framed", "[", 
+       RowBox[{
+        RowBox[{"Column", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"name", "/.", " ", "system"}], ")"}], "<>", 
+            "\"\< L-system at \>\"", "<>", 
+            RowBox[{"ToString", "[", "iterations", "]"}], "<>", 
+            "\"\< iteration\>\"", "<>", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"iterations", "=!=", "1"}], ",", "\"\<s\>\"", ",", 
+              "\"\<\>\""}], "]"}]}], ",", "Null", ",", 
+           RowBox[{
+            RowBox[{"ToString", "[", 
+             RowBox[{"(", 
+              RowBox[{"name", "/.", " ", "system"}], ")"}], "]"}], "<>", 
+            "\"\< Construction:\>\""}], ",", "Null", ",", 
+           RowBox[{"Grid", "[", 
+            RowBox[{"{", 
+             RowBox[{"{", 
+              RowBox[{"\"\<Axiom:\>\"", ",", 
+               RowBox[{"(", 
+                RowBox[{"axiom", "/.", " ", "system"}], ")"}]}], "}"}], "}"}],
+             "]"}], ",", "Null", ",", 
+           RowBox[{"Grid", "[", 
+            RowBox[{"{", 
+             RowBox[{"{", 
+              RowBox[{"\"\<Transformation rules:\>\"", ",", 
+               RowBox[{"MatrixForm", "[", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"rules", "/.", " ", "system"}], "}"}], "//", 
+                 "Transpose"}], "]"}]}], "}"}], "}"}], "]"}], ",", "Null", 
+           ",", 
+           RowBox[{"Grid", "[", 
+            RowBox[{"{", 
+             RowBox[{"{", 
+              RowBox[{"\"\<Definitions:\>\"", ",", 
+               RowBox[{"MatrixForm", "[", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"conversions", "/.", " ", "system"}], "}"}], "//", 
+                 "Transpose"}], "]"}], ",", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Count", "[", 
+                   RowBox[{
+                    RowBox[{"conversions", "/.", " ", "system"}], ",", "i", 
+                    ",", "Infinity"}], "]"}], ">", "0"}], ",", 
+                 "\"\<With i = the current iteration\>\""}], "]"}]}], "}"}], 
+             "}"}], "]"}]}], "}"}], "]"}], ",", 
+        RowBox[{"ImageMargins", "->", "3"}], ",", 
+        RowBox[{"FrameMargins", "->", "0"}], ",", 
+        RowBox[{"FrameStyle", "->", "None"}]}], "]"}], ",", 
+      RowBox[{"TooltipDelay", "->", ".6"}]}], "]"}]}], ",", 
+   RowBox[{"OpenerView", "[", 
+    RowBox[{"{", 
+     RowBox[{"\"\<Style\>\"", ",", 
+      RowBox[{"Column", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Control", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"color", ",", "Darker", ",", "\"\<color\>\""}], "}"}], 
+            ",", "ColorSlider"}], "}"}], "]"}], ",", 
+         RowBox[{"Control", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+             "lineThickness", ",", "0.005", ",", "\"\<size of line\>\""}], 
+             "}"}], ",", "0", ",", ".02", ",", ".005"}], "}"}], "]"}], ",", 
+         RowBox[{"Control", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+             "showNext", ",", "True", ",", "\"\<show next iteration\>\""}], 
+             "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"True", ",", "False"}], "}"}]}], "}"}], "]"}]}], "}"}], 
+       "]"}]}], "}"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"system", ",", 
+       RowBox[{"curves", "[", 
+        RowBox[{"[", "2", "]"}], "]"}], ",", "\"\<L-system\>\""}], "}"}], ",",
+      "choices", ",", 
+     RowBox[{"ControlType", "->", "SetterBar"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"iterations", ",", "1", ",", "\"\<iterations\>\""}], "}"}], ",",
+      "0", ",", 
+     RowBox[{"Dynamic", "[", "maxIterations", "]"}], ",", "1", ",", 
+     RowBox[{"Appearance", "->", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ContinuousAction", "->", "False"}], ",", 
+     RowBox[{"ControlType", "->", "Slider"}]}], "}"}], ",", 
+   RowBox[{"SynchronousUpdating", "->", "False"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.877440588001071*^9, 3.8774406157583275`*^9}, {
+  3.8774406688729486`*^9, 3.8774406901497974`*^9}, {3.877440735127556*^9, 
+  3.8774409009173994`*^9}},
+ CellLabel->
+  "In[195]:=",ExpressionUUID->"bb5fcd3f-a402-49f7-a93b-d6e89790673f"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`color$$ = RGBColor[
+    0.05128557259479667, 0.6666666666666666, 0.], $CellContext`iterations$$ = 
+    2, $CellContext`lineThickness$$ = 0.015, $CellContext`showNext$$ = 
+    True, $CellContext`system$$ = {$CellContext`name -> 
+     "Tree", $CellContext`orientation -> 
+     90., $CellContext`axiom -> {$CellContext`F}, $CellContext`rules -> \
+{$CellContext`F -> {$CellContext`F, $CellContext`push, $CellContext`L, \
+$CellContext`F, $CellContext`F, $CellContext`pop, $CellContext`F, \
+$CellContext`push, $CellContext`R, $CellContext`F, $CellContext`F, \
+$CellContext`pop, $CellContext`F}}, $CellContext`conversions -> \
+{$CellContext`F -> $CellContext`forward[
+        3.^(-$CellContext`i)], $CellContext`L -> $CellContext`left[
+        25], $CellContext`R -> $CellContext`right[
+        25]}, $CellContext`plotRange -> {{-0.4, 0.48}, {-0.01, 
+      1.36}}, $CellContext`thumbIterations -> 2, $CellContext`maxIters -> 
+     4, $CellContext`maxShowNext -> 3}, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`color$$], Darker, "color"}, 
+      GrayLevel[0.5]}, {{
+       Hold[$CellContext`lineThickness$$], 0.005, "size of line"}, 0, 0.02, 
+      0.005}, {{
+       Hold[$CellContext`showNext$$], True, "show next iteration"}, {
+      True, False}}, {
+      Hold[
+       OpenerView[{"Style", 
+         Column[{
+           Manipulate`Place[1], 
+           Manipulate`Place[2], 
+           Manipulate`Place[3]}]}]], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`system$$], {$CellContext`name -> 
+        "Tree", $CellContext`orientation -> 
+        90., $CellContext`axiom -> {$CellContext`F}, $CellContext`rules -> \
+{$CellContext`F -> {$CellContext`F, $CellContext`push, $CellContext`L, \
+$CellContext`F, $CellContext`F, $CellContext`pop, $CellContext`F, \
+$CellContext`push, $CellContext`R, $CellContext`F, $CellContext`F, \
+$CellContext`pop, $CellContext`F}}, $CellContext`conversions -> \
+{$CellContext`F -> $CellContext`forward[
+           3.^(-$CellContext`i)], $CellContext`L -> $CellContext`left[
+           25], $CellContext`R -> $CellContext`right[
+           25]}, $CellContext`plotRange -> {{-0.4, 0.48}, {-0.01, 
+         1.36}}, $CellContext`thumbIterations -> 2, $CellContext`maxIters -> 
+        4, $CellContext`maxShowNext -> 3}, 
+       "L-system"}, {{$CellContext`name -> 
+         "Levyy C Curve", $CellContext`orientation -> 0., $CellContext`axiom -> {
+           $CellContext`forward[
+           1]}, $CellContext`rules -> {$CellContext`forward[
+             Pattern[$CellContext`x, 
+              Blank[]]] -> {$CellContext`R, 
+             $CellContext`forward[
+             0.7071067811865476 $CellContext`x], $CellContext`L, \
+$CellContext`L, 
+             $CellContext`forward[
+             0.7071067811865476 $CellContext`x], $CellContext`R}}, \
+$CellContext`conversions -> {$CellContext`L -> $CellContext`left[
+            45], $CellContext`R -> $CellContext`right[
+            45]}, $CellContext`plotRange -> {{-0.5, 
+           1.5}, {-1, 0.25}}, $CellContext`thumbIterations -> 
+         5, $CellContext`maxIters -> 13, $CellContext`maxShowNext -> 8} -> 
+       Tooltip[
+         Graphics[{
+           Line[CompressedData["
+1:eJzV1bsNwyAQBmCSTJJJboeMYCl1VvEC2cQSGYGSksKFCwpkIZd5OPgKrjms
+M7GCZJ2+4ocDS3BubpfrUSl1/3xzrT3SGg99SBXKbHSel9ri/LrMZrH5ke3K
+inkn9mnZd3LP+ltU22F+b8v6H8R+vuahIdmzTnkD+Xy1bcn6nB3JS91Dfv6c
+Me/+xJb0z7nW+fpCDyRf256szzmQvNQjOX/Ogfzfvb22/0jyUk+A70+ZI3nH
+a3sCvOfLHCHVttvGI+A9X+ZA8tv5DUnQyQk=
+            "]]}, ImagePadding -> 2, ImageSize -> {26, 26}], "Levyy C Curve", 
+         TooltipDelay -> 0.3], {$CellContext`name -> 
+         "Tree", $CellContext`orientation -> 
+         90., $CellContext`axiom -> {$CellContext`F}, $CellContext`rules -> \
+{$CellContext`F -> {$CellContext`F, $CellContext`push, $CellContext`L, \
+$CellContext`F, $CellContext`F, $CellContext`pop, $CellContext`F, \
+$CellContext`push, $CellContext`R, $CellContext`F, $CellContext`F, \
+$CellContext`pop, $CellContext`F}}, $CellContext`conversions -> \
+{$CellContext`F -> $CellContext`forward[
+            3.^(-$CellContext`i)], $CellContext`L -> $CellContext`left[
+            25], $CellContext`R -> $CellContext`right[
+            25]}, $CellContext`plotRange -> {{-0.4, 0.48}, {-0.01, 
+          1.36}}, $CellContext`thumbIterations -> 2, $CellContext`maxIters -> 
+         4, $CellContext`maxShowNext -> 3} -> Tooltip[
+         Graphics[{
+           
+           Line[{{0., 0.}, {6.803593328596406*^-18, 0.1111111111111111}, {
+            6.803593328596406*^-18, 0.1111111111111111}, {
+            6.803593328596406*^-18, 
+            0.1111111111111111}, {-0.04695758463785547, 
+            0.21181197633740556`}, {-0.09391516927571095, 0.3125128415637}}], 
+           
+           Line[{{6.803593328596406*^-18, 0.1111111111111111}, {
+            1.3607186657192813`*^-17, 0.2222222222222222}, {
+            1.3607186657192813`*^-17, 0.2222222222222222}, {
+            1.3607186657192813`*^-17, 0.2222222222222222}, {
+            0.04695758463785551, 0.3229230874485166}, {0.093915169275711, 
+            0.423623952674811}}], 
+           
+           Line[{{1.3607186657192813`*^-17, 0.2222222222222222}, {
+            2.041077998578922*^-17, 0.3333333333333333}, {
+            2.041077998578922*^-17, 0.3333333333333333}, {
+            2.041077998578922*^-17, 
+            0.3333333333333333}, {-0.04695758463785546, 
+            0.43403419855962777`}, {-0.04695758463785546, 
+            0.43403419855962777`}, {-0.04695758463785546, 
+            0.43403419855962777`}, {-0.13207363387329746`, 
+            0.5054550440803544}, {-0.21718968310873943`, 
+            0.5768758896010809}}], 
+           
+           Line[{{-0.04695758463785546, 
+            0.43403419855962777`}, {-0.09391516927571095, 
+            0.5347350637859222}, {-0.09391516927571095, 
+            0.5347350637859222}, {-0.09391516927571095, 
+            0.5347350637859222}, {-0.09391516927571095, 
+            0.6458461748970332}, {-0.09391516927571095, 0.7569572860081444}}], 
+           
+           Line[{{-0.09391516927571095, 
+            0.5347350637859222}, {-0.14087275391356643`, 
+            0.6354359290122166}, {-0.18783033855142192`, 
+            0.736136794238511}, {-0.18783033855142192`, 
+            0.736136794238511}, {-0.18783033855142192`, 
+            0.736136794238511}, {-0.2729463877868639, 
+            0.8075576397592376}, {-0.3580624370223059, 0.8789784852799641}}], 
+           
+           Line[{{-0.18783033855142192`, 
+            0.736136794238511}, {-0.2347879231892774, 
+            0.8368376594648054}, {-0.2347879231892774, 
+            0.8368376594648054}, {-0.2347879231892774, 
+            0.8368376594648054}, {-0.2347879231892774, 
+            0.9479487705759164}, {-0.2347879231892774, 1.0590598816870276`}}], 
+           
+           Line[{{-0.2347879231892774, 
+            0.8368376594648054}, {-0.28174550782713287`, 
+            0.9375385246910998}}], 
+           
+           Line[{{2.041077998578922*^-17, 0.3333333333333333}, {
+            2.7214373314385625`*^-17, 0.4444444444444444}, {
+            2.7214373314385625`*^-17, 0.4444444444444444}, {
+            2.7214373314385625`*^-17, 
+            0.4444444444444444}, {-0.04695758463785545, 
+            0.5451453096707388}, {-0.09391516927571093, 0.6458461748970332}}], 
+           
+           Line[{{2.7214373314385625`*^-17, 0.4444444444444444}, {
+            3.4017966642982035`*^-17, 0.5555555555555556}, {
+            3.4017966642982035`*^-17, 0.5555555555555556}, {
+            3.4017966642982035`*^-17, 0.5555555555555556}, {
+            0.04695758463785553, 0.65625642078185}, {0.09391516927571103, 
+            0.7569572860081444}}], 
+           
+           Line[{{3.4017966642982035`*^-17, 0.5555555555555556}, {
+            4.0821559971578444`*^-17, 0.6666666666666667}, {
+            4.0821559971578444`*^-17, 0.6666666666666667}, {
+            4.0821559971578444`*^-17, 0.6666666666666667}, {
+            0.046957584637855536`, 0.7673675318929611}, {
+            0.046957584637855536`, 0.7673675318929611}, {
+            0.046957584637855536`, 0.7673675318929611}, {0.04695758463785554, 
+            0.8784786430040723}, {0.04695758463785555, 0.9895897541151835}}], 
+           
+           Line[{{0.046957584637855536`, 0.7673675318929611}, {
+            0.09391516927571103, 0.8680683971192555}, {0.09391516927571103, 
+            0.8680683971192555}, {0.09391516927571103, 0.8680683971192555}, {
+            0.17903121851115303`, 0.9394892426399821}, {0.264147267746595, 
+            1.0109100881607087`}}], 
+           
+           Line[{{0.09391516927571103, 0.8680683971192555}, {
+            0.14087275391356652`, 0.9687692623455499}, {0.187830338551422, 
+            1.0694701275718443`}, {0.187830338551422, 1.0694701275718443`}, {
+            0.187830338551422, 1.0694701275718443`}, {0.187830338551422, 
+            1.1805812386829555`}, {0.187830338551422, 1.2916923497940667`}}], 
+           
+           Line[{{0.187830338551422, 1.0694701275718443`}, {
+            0.2347879231892775, 1.1701709927981387`}, {0.2347879231892775, 
+            1.1701709927981387`}, {0.2347879231892775, 1.1701709927981387`}, {
+            0.31990397242471946`, 1.2415918383188653`}, {0.4050200216601615, 
+            1.313012683839592}}], 
+           
+           Line[{{0.2347879231892775, 1.1701709927981387`}, {
+            0.281745507827133, 1.2708718580244331`}}], 
+           
+           Line[{{4.0821559971578444`*^-17, 0.6666666666666667}, {
+            4.7625153300174854`*^-17, 0.7777777777777779}, {
+            4.7625153300174854`*^-17, 0.7777777777777779}, {
+            4.7625153300174854`*^-17, 
+            0.7777777777777779}, {-0.04695758463785543, 
+            0.8784786430040723}, {-0.09391516927571092, 0.9791795082303667}}], 
+           
+           Line[{{4.7625153300174854`*^-17, 0.7777777777777779}, {
+            5.4428746628771263`*^-17, 0.8888888888888891}, {
+            5.4428746628771263`*^-17, 0.8888888888888891}, {
+            5.4428746628771263`*^-17, 0.8888888888888891}, {
+            0.04695758463785555, 0.9895897541151835}, {0.09391516927571104, 
+            1.0902906193414779`}}], 
+           
+           Line[{{5.4428746628771263`*^-17, 0.8888888888888891}, {
+            6.123233995736767*^-17, 1.0000000000000002`}}]}, ImagePadding -> 
+          2, ImageSize -> {26, 26}], "Tree", TooltipDelay -> 0.3]}}, {{
+       Hold[$CellContext`iterations$$], 1, "iterations"}, 0, 
+      Dynamic[$CellContext`maxIterations], 1}}, Typeset`size$$ = {
+    280., {138., 142.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     2, StandardForm, 
+      "Variables" :> {$CellContext`color$$ = 
+        Darker, $CellContext`iterations$$ = 1, $CellContext`lineThickness$$ = 
+        0.005, $CellContext`showNext$$ = 
+        True, $CellContext`system$$ = {$CellContext`name -> 
+          "Tree", $CellContext`orientation -> 
+          90., $CellContext`axiom -> {$CellContext`F}, $CellContext`rules -> \
+{$CellContext`F -> {$CellContext`F, $CellContext`push, $CellContext`L, \
+$CellContext`F, $CellContext`F, $CellContext`pop, $CellContext`F, \
+$CellContext`push, $CellContext`R, $CellContext`F, $CellContext`F, \
+$CellContext`pop, $CellContext`F}}, $CellContext`conversions -> \
+{$CellContext`F -> $CellContext`forward[
+             3.^(-$CellContext`i)], $CellContext`L -> $CellContext`left[
+             25], $CellContext`R -> $CellContext`right[
+             25]}, $CellContext`plotRange -> {{-0.4, 0.48}, {-0.01, 
+           1.36}}, $CellContext`thumbIterations -> 2, $CellContext`maxIters -> 
+          4, $CellContext`maxShowNext -> 3}}, "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> ($CellContext`maxIterations = 
+        ReplaceAll[$CellContext`maxIters, $CellContext`system$$]; \
+$CellContext`iterations$$ = Min[$CellContext`iterations$$, 
+          ReplaceAll[$CellContext`maxIters, $CellContext`system$$]]; Tooltip[
+         Show[
+          If[
+           
+           And[$CellContext`showNext$$, $CellContext`iterations$$ <= 
+            ReplaceAll[$CellContext`maxShowNext, $CellContext`system$$]], 
+           Graphics[
+            Join[
+             
+             Block[{$CellContext`i = $CellContext`iterations$$ + 
+                1}, $CellContext`nextStyle], {
+              Thickness[$CellContext`lineThickness$$/2]}, 
+             Map[Line, 
+              $CellContext`geometry[$CellContext`system$$, \
+$CellContext`iterations$$ + 1]]]], {}], 
+          Graphics[
+           Join[{$CellContext`color$$, 
+             Thickness[$CellContext`lineThickness$$]}, 
+            ReplaceAll[
+             
+             ReplaceAll[$CellContext`customStyle, $CellContext`system$$], \
+$CellContext`customStyle -> {}], 
+            Map[Line, 
+             $CellContext`geometry[$CellContext`system$$, \
+$CellContext`iterations$$]]]], PlotRange -> 
+          ReplaceAll[$CellContext`plotRange, $CellContext`system$$], 
+          ImageSize -> $CellContext`imageSize], 
+         Framed[
+          
+          Column[{ReplaceAll[$CellContext`name, $CellContext`system$$] <> 
+            " L-system at " <> ToString[$CellContext`iterations$$] <> 
+            " iteration" <> If[$CellContext`iterations$$ =!= 1, "s", ""], 
+            Null, ToString[
+              ReplaceAll[$CellContext`name, $CellContext`system$$]] <> 
+            " Construction:", Null, 
+            Grid[{{"Axiom:", 
+               ReplaceAll[$CellContext`axiom, $CellContext`system$$]}}], Null, 
+            Grid[{{"Transformation rules:", 
+               MatrixForm[
+                Transpose[{
+                  ReplaceAll[$CellContext`rules, $CellContext`system$$]}]]}}],
+             Null, 
+            Grid[{{"Definitions:", 
+               MatrixForm[
+                Transpose[{
+                  
+                  ReplaceAll[$CellContext`conversions, \
+$CellContext`system$$]}]], 
+               If[Count[
+                  
+                  ReplaceAll[$CellContext`conversions, \
+$CellContext`system$$], $CellContext`i, Infinity] > 0, 
+                "With i = the current iteration"]}}]}], ImageMargins -> 3, 
+          FrameMargins -> 0, FrameStyle -> None], TooltipDelay -> 0.6]), 
+      "Specifications" :> {{{$CellContext`color$$, Darker, "color"}, Gray, 
+         ControlType -> ColorSlider, ControlPlacement -> 
+         1}, {{$CellContext`lineThickness$$, 0.005, "size of line"}, 0, 0.02, 
+         0.005, ControlPlacement -> 
+         2}, {{$CellContext`showNext$$, True, "show next iteration"}, {
+         True, False}, ControlPlacement -> 3}, 
+        OpenerView[{"Style", 
+          Column[{
+            Manipulate`Place[1], 
+            Manipulate`Place[2], 
+            Manipulate`Place[
+            3]}]}], {{$CellContext`system$$, {$CellContext`name -> 
+           "Tree", $CellContext`orientation -> 
+           90., $CellContext`axiom -> {$CellContext`F}, $CellContext`rules -> \
+{$CellContext`F -> {$CellContext`F, $CellContext`push, $CellContext`L, \
+$CellContext`F, $CellContext`F, $CellContext`pop, $CellContext`F, \
+$CellContext`push, $CellContext`R, $CellContext`F, $CellContext`F, \
+$CellContext`pop, $CellContext`F}}, $CellContext`conversions -> \
+{$CellContext`F -> $CellContext`forward[
+              3.^(-$CellContext`i)], $CellContext`L -> $CellContext`left[
+              25], $CellContext`R -> $CellContext`right[
+              25]}, $CellContext`plotRange -> {{-0.4, 0.48}, {-0.01, 
+            1.36}}, $CellContext`thumbIterations -> 2, $CellContext`maxIters -> 
+           4, $CellContext`maxShowNext -> 3}, 
+          "L-system"}, {{$CellContext`name -> 
+            "Levyy C Curve", $CellContext`orientation -> 
+            0., $CellContext`axiom -> {
+              $CellContext`forward[
+              1]}, $CellContext`rules -> {$CellContext`forward[
+                Pattern[$CellContext`x, 
+                 Blank[]]] -> {$CellContext`R, 
+                $CellContext`forward[
+                0.7071067811865476 $CellContext`x], $CellContext`L, \
+$CellContext`L, 
+                $CellContext`forward[
+                0.7071067811865476 $CellContext`x], $CellContext`R}}, \
+$CellContext`conversions -> {$CellContext`L -> $CellContext`left[
+               45], $CellContext`R -> $CellContext`right[
+               45]}, $CellContext`plotRange -> {{-0.5, 
+              1.5}, {-1, 0.25}}, $CellContext`thumbIterations -> 
+            5, $CellContext`maxIters -> 13, $CellContext`maxShowNext -> 8} -> 
+          Tooltip[
+            Graphics[{
+              Line[CompressedData["
+1:eJzV1bsNwyAQBmCSTJJJboeMYCl1VvEC2cQSGYGSksKFCwpkIZd5OPgKrjms
+M7GCZJ2+4ocDS3BubpfrUSl1/3xzrT3SGg99SBXKbHSel9ri/LrMZrH5ke3K
+inkn9mnZd3LP+ltU22F+b8v6H8R+vuahIdmzTnkD+Xy1bcn6nB3JS91Dfv6c
+Me/+xJb0z7nW+fpCDyRf256szzmQvNQjOX/Ogfzfvb22/0jyUk+A70+ZI3nH
+a3sCvOfLHCHVttvGI+A9X+ZA8tv5DUnQyQk=
+               "]]}, ImagePadding -> 2, ImageSize -> {26, 26}], 
+            "Levyy C Curve", TooltipDelay -> 0.3], {$CellContext`name -> 
+            "Tree", $CellContext`orientation -> 
+            90., $CellContext`axiom -> {$CellContext`F}, $CellContext`rules -> \
+{$CellContext`F -> {$CellContext`F, $CellContext`push, $CellContext`L, \
+$CellContext`F, $CellContext`F, $CellContext`pop, $CellContext`F, \
+$CellContext`push, $CellContext`R, $CellContext`F, $CellContext`F, \
+$CellContext`pop, $CellContext`F}}, $CellContext`conversions -> \
+{$CellContext`F -> $CellContext`forward[
+               3.^(-$CellContext`i)], $CellContext`L -> $CellContext`left[
+               25], $CellContext`R -> $CellContext`right[
+               25]}, $CellContext`plotRange -> {{-0.4, 0.48}, {-0.01, 
+             1.36}}, $CellContext`thumbIterations -> 2, $CellContext`maxIters -> 
+            4, $CellContext`maxShowNext -> 3} -> Tooltip[
+            Graphics[{
+              
+              Line[{{0., 0.}, {6.803593328596406*^-18, 0.1111111111111111}, {
+               6.803593328596406*^-18, 0.1111111111111111}, {
+               6.803593328596406*^-18, 
+               0.1111111111111111}, {-0.04695758463785547, 
+               0.21181197633740556`}, {-0.09391516927571095, 
+               0.3125128415637}}], 
+              
+              Line[{{6.803593328596406*^-18, 0.1111111111111111}, {
+               1.3607186657192813`*^-17, 0.2222222222222222}, {
+               1.3607186657192813`*^-17, 0.2222222222222222}, {
+               1.3607186657192813`*^-17, 0.2222222222222222}, {
+               0.04695758463785551, 0.3229230874485166}, {0.093915169275711, 
+               0.423623952674811}}], 
+              
+              Line[{{1.3607186657192813`*^-17, 0.2222222222222222}, {
+               2.041077998578922*^-17, 0.3333333333333333}, {
+               2.041077998578922*^-17, 0.3333333333333333}, {
+               2.041077998578922*^-17, 
+               0.3333333333333333}, {-0.04695758463785546, 
+               0.43403419855962777`}, {-0.04695758463785546, 
+               0.43403419855962777`}, {-0.04695758463785546, 
+               0.43403419855962777`}, {-0.13207363387329746`, 
+               0.5054550440803544}, {-0.21718968310873943`, 
+               0.5768758896010809}}], 
+              
+              Line[{{-0.04695758463785546, 
+               0.43403419855962777`}, {-0.09391516927571095, 
+               0.5347350637859222}, {-0.09391516927571095, 
+               0.5347350637859222}, {-0.09391516927571095, 
+               0.5347350637859222}, {-0.09391516927571095, 
+               0.6458461748970332}, {-0.09391516927571095, 
+               0.7569572860081444}}], 
+              
+              Line[{{-0.09391516927571095, 
+               0.5347350637859222}, {-0.14087275391356643`, 
+               0.6354359290122166}, {-0.18783033855142192`, 
+               0.736136794238511}, {-0.18783033855142192`, 
+               0.736136794238511}, {-0.18783033855142192`, 
+               0.736136794238511}, {-0.2729463877868639, 
+               0.8075576397592376}, {-0.3580624370223059, 
+               0.8789784852799641}}], 
+              
+              Line[{{-0.18783033855142192`, 
+               0.736136794238511}, {-0.2347879231892774, 
+               0.8368376594648054}, {-0.2347879231892774, 
+               0.8368376594648054}, {-0.2347879231892774, 
+               0.8368376594648054}, {-0.2347879231892774, 
+               0.9479487705759164}, {-0.2347879231892774, 
+               1.0590598816870276`}}], 
+              
+              Line[{{-0.2347879231892774, 
+               0.8368376594648054}, {-0.28174550782713287`, 
+               0.9375385246910998}}], 
+              
+              Line[{{2.041077998578922*^-17, 0.3333333333333333}, {
+               2.7214373314385625`*^-17, 0.4444444444444444}, {
+               2.7214373314385625`*^-17, 0.4444444444444444}, {
+               2.7214373314385625`*^-17, 
+               0.4444444444444444}, {-0.04695758463785545, 
+               0.5451453096707388}, {-0.09391516927571093, 
+               0.6458461748970332}}], 
+              
+              Line[{{2.7214373314385625`*^-17, 0.4444444444444444}, {
+               3.4017966642982035`*^-17, 0.5555555555555556}, {
+               3.4017966642982035`*^-17, 0.5555555555555556}, {
+               3.4017966642982035`*^-17, 0.5555555555555556}, {
+               0.04695758463785553, 0.65625642078185}, {0.09391516927571103, 
+               0.7569572860081444}}], 
+              
+              Line[{{3.4017966642982035`*^-17, 0.5555555555555556}, {
+               4.0821559971578444`*^-17, 0.6666666666666667}, {
+               4.0821559971578444`*^-17, 0.6666666666666667}, {
+               4.0821559971578444`*^-17, 0.6666666666666667}, {
+               0.046957584637855536`, 0.7673675318929611}, {
+               0.046957584637855536`, 0.7673675318929611}, {
+               0.046957584637855536`, 0.7673675318929611}, {
+               0.04695758463785554, 0.8784786430040723}, {0.04695758463785555,
+                0.9895897541151835}}], 
+              
+              Line[{{0.046957584637855536`, 0.7673675318929611}, {
+               0.09391516927571103, 0.8680683971192555}, {0.09391516927571103,
+                0.8680683971192555}, {0.09391516927571103, 
+               0.8680683971192555}, {0.17903121851115303`, 
+               0.9394892426399821}, {0.264147267746595, 
+               1.0109100881607087`}}], 
+              
+              Line[{{0.09391516927571103, 0.8680683971192555}, {
+               0.14087275391356652`, 0.9687692623455499}, {0.187830338551422, 
+               1.0694701275718443`}, {0.187830338551422, 
+               1.0694701275718443`}, {0.187830338551422, 
+               1.0694701275718443`}, {0.187830338551422, 
+               1.1805812386829555`}, {0.187830338551422, 
+               1.2916923497940667`}}], 
+              
+              Line[{{0.187830338551422, 1.0694701275718443`}, {
+               0.2347879231892775, 1.1701709927981387`}, {0.2347879231892775, 
+               1.1701709927981387`}, {0.2347879231892775, 
+               1.1701709927981387`}, {0.31990397242471946`, 
+               1.2415918383188653`}, {0.4050200216601615, 
+               1.313012683839592}}], 
+              
+              Line[{{0.2347879231892775, 1.1701709927981387`}, {
+               0.281745507827133, 1.2708718580244331`}}], 
+              
+              Line[{{4.0821559971578444`*^-17, 0.6666666666666667}, {
+               4.7625153300174854`*^-17, 0.7777777777777779}, {
+               4.7625153300174854`*^-17, 0.7777777777777779}, {
+               4.7625153300174854`*^-17, 
+               0.7777777777777779}, {-0.04695758463785543, 
+               0.8784786430040723}, {-0.09391516927571092, 
+               0.9791795082303667}}], 
+              
+              Line[{{4.7625153300174854`*^-17, 0.7777777777777779}, {
+               5.4428746628771263`*^-17, 0.8888888888888891}, {
+               5.4428746628771263`*^-17, 0.8888888888888891}, {
+               5.4428746628771263`*^-17, 0.8888888888888891}, {
+               0.04695758463785555, 0.9895897541151835}, {0.09391516927571104,
+                1.0902906193414779`}}], 
+              
+              Line[{{5.4428746628771263`*^-17, 0.8888888888888891}, {
+               6.123233995736767*^-17, 1.0000000000000002`}}]}, ImagePadding -> 
+             2, ImageSize -> {26, 26}], "Tree", TooltipDelay -> 0.3]}, 
+         ControlType -> 
+         SetterBar}, {{$CellContext`iterations$$, 1, "iterations"}, 0, 
+         Dynamic[$CellContext`maxIterations], 1, Appearance -> "Labeled", 
+         ContinuousAction -> False, ControlType -> Slider}}, 
+      "Options" :> {SynchronousUpdating -> False}, "DefaultOptions" :> {}],
+     ImageSizeCache->{315., {217.99382315808907`, 222.00617684191093`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.877440618683345*^9, 3.8774406432714925`*^9}, {
+  3.877440918099511*^9, 3.877440930015611*^9}},
+ CellLabel->
+  "Out[209]=",ExpressionUUID->"5b11a626-b13c-4903-8103-1dd14e2a0d0e"]
+}, Open  ]]
+},
+WindowSize->{949, 485},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification:>0.7 Inherited,
+FrontEndVersion->"13.1 for Microsoft Windows (64-bit) (August 22, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"d8800478-04a8-4560-a120-fbc32b392e54"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 19920, 540, 727, "Input",ExpressionUUID->"bb5fcd3f-a402-49f7-a93b-d6e89790673f"],
+Cell[20503, 564, 25759, 488, 489, "Output",ExpressionUUID->"5b11a626-b13c-4903-8103-1dd14e2a0d0e"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
